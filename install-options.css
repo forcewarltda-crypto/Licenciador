@@ -1,0 +1,27 @@
+.install-guide{margin-top:40px;padding:36px;border:1px solid #ffffff12;border-radius:18px;background:linear-gradient(155deg,#161212,#0b0b0b 60%);box-shadow:0 12px 36px #0003}
+.guide-eyebrow{display:block;margin-bottom:8px;color:#ff7272;font-size:11px;font-weight:700;letter-spacing:1.8px}
+.guide-heading h2{font-family:Orbitron,sans-serif;font-size:24px;line-height:1.4;margin-bottom:10px}
+.guide-heading p{color:var(--muted);font-size:15px;margin-bottom:24px;max-width:780px}
+.tutorial-video{aspect-ratio:16/9;width:100%;overflow:hidden;border-radius:12px;border:1px solid #ffffff14;background:#080808}
+.tutorial-video iframe{display:block;width:100%;height:100%;border:0}
+.video-caption{display:flex;justify-content:space-between;gap:14px;flex-wrap:wrap;margin:12px 0 26px;font-size:12px;color:var(--muted)}
+.video-caption a{color:#dedede;text-decoration:none}.video-caption a:hover{color:#ff7777}
+.install-options{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}
+.install-option{min-width:0;display:flex;flex-direction:column;padding:22px;border:1px solid #ffffff14;border-radius:14px;background:linear-gradient(160deg,#ffffff03,transparent);position:relative}
+.option-heading{display:flex;gap:13px;align-items:flex-start}.option-heading>div{min-width:0}
+.option-icon{width:38px;height:38px;flex:none;display:grid;place-items:center;border-radius:10px;color:#ff6b6b;background:#e0313114;border:1px solid #e0313120}
+.option-icon svg{width:21px;height:21px}
+.option-heading h3{font-size:16px;line-height:1.4;margin:0 0 4px;font-weight:700}
+.option-heading p,.option-description{font-size:13px;line-height:1.65;color:var(--muted)}
+.option-description{margin:17px 0 24px}
+.option-action{margin-top:auto;min-height:48px;justify-content:center;font-size:14px;padding:12px 16px;width:100%;box-shadow:0 5px 20px #b018181c}
+.command-box{margin-top:auto;display:flex;align-items:center;gap:4px;min-height:48px;padding:4px 5px 4px 13px;border:1px solid #ffffff18;border-radius:10px;background:#070707}
+.command-box code{flex:1;min-width:0;overflow-wrap:anywhere;white-space:normal;font:12px/1.65 Consolas,monospace;color:#f6cccc;user-select:all}
+.command-box button{display:grid;place-items:center;flex:none;width:38px;height:38px;border:0;border-radius:7px;background:transparent;color:#ddd;cursor:pointer}
+.command-box button:hover{background:#ffffff0d;color:#fff}
+.copy-status{font-size:11px;color:#efaaaa;position:absolute;bottom:3px;left:22px;right:22px;line-height:1.5}
+:is(.option-action,.command-box button,.command-box code,.video-caption a):focus-visible{outline:2px solid #ff7777;outline-offset:4px}
+.hero .info{min-width:0}.hero p{max-width:900px}
+@media(max-width:760px){.wrap{margin:20px auto;padding:18px}.topbar{padding:20px;gap:16px;flex-wrap:wrap}.logo{width:64px;height:64px}.title{font-size:24px}.subtitle{font-size:13px}.topbar>div:last-child{margin-left:0!important}.badge{font-size:12px;padding:7px 12px}.badge strong{margin-left:10px!important}.banner{margin-top:20px}.hero{margin-top:24px;padding:24px;gap:20px}.hero h1{font-size:24px}.hero p{font-size:15px}.instructions{margin-top:26px;padding:24px;font-size:15px}.instructions h4{font-size:20px}.step{gap:12px}.step .num{min-width:34px;height:34px;font-size:15px}.install-guide{margin-top:26px;padding:22px}.guide-heading h2{font-size:21px}.install-options{grid-template-columns:1fr}.install-option{padding:20px}.guide-heading p{font-size:14px}.command-box code{font-size:12px}}
+@media(prefers-reduced-motion:reduce){#snow-canvas{display:none}.btn{transition:none}}
+.install-option{padding-bottom:44px}.copy-status{bottom:8px}
