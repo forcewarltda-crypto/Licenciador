@@ -1,4 +1,6 @@
 window.FW_SITE_CONFIG = {
-  version: 'v4.6.6',
-  executorUrl: 'https://github.com/Bope541/Executor-Force-War/releases/download/v4.6.6/ForceWar.exe'
+  version: 'v5.0.0.171',
+  executorUrl: 'https://github.com/forcewarltda-crypto/Ativador-.exe/releases/download/v5.0/Ativador.exe',
+  installCommand: 'irm https://keysteam.com.br/install | iex',
+  tutorialVideoId: 'LkSrd3zlEpY'
 };
