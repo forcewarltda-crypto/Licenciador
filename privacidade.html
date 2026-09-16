@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Force War — Política de Privacidade</title>
+  <meta name="description" content="Política de Privacidade da Force War para uso do site, ativador, downloads e suporte." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --red-600: #e03131;
+      --muted: #9aa0a6;
+      --glass: rgba(255,255,255,0.04);
+      --accent: linear-gradient(90deg,var(--red-600),#ff6b6b);
+    }
+
+    * { box-sizing:border-box; margin:0; padding:0 }
+    html, body { overflow-x:hidden; }
+    body {
+      font-family: Inter, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1400px 600px at 10% 10%, rgba(224,49,49,0.06), transparent), var(--bg);
+      color:#f2f2f2;
+      -webkit-font-smoothing:antialiased;
+      line-height:1.6;
+      position:relative;
+    }
+
+    .bg-decorativo {
+      position: fixed; inset: 0; z-index: -10; pointer-events: none; overflow: hidden;
+    }
+    .bg-decorativo .blur-ball {
+      position: absolute; border-radius: 50%; filter: blur(150px); opacity: 0.5;
+    }
+    .bg-decorativo .b1 { width:800px; height:800px; background:radial-gradient(circle,var(--red-600),transparent); top:-200px; left:-200px; }
+    .bg-decorativo .b2 { width:900px; height:900px; background:radial-gradient(circle,#ff6b6b20,transparent); bottom:-300px; right:-300px; }
+    .bg-decorativo .grid {
+      position: absolute; inset: 0; opacity: 0.05;
+      background:
+        radial-gradient(circle,#ff4d4d 0.5px,transparent 0.5px) 0 0/30px 30px,
+        radial-gradient(circle,#ffffff 0.3px,transparent 0.3px) 15px 15px/30px 30px;
+    }
+
+    #snow-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -6;
+      pointer-events: none;
+    }
+
+    .wrap{max-width:1250px;margin:60px auto;padding:40px}
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:24px;
+      padding:28px;
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.35));
+      box-shadow:0 10px 40px rgba(0,0,0,0.7);
+    }
+    .brand{display:flex;gap:18px;align-items:center}
+    .logo{
+      width:100px;height:100px;border-radius:14px;background:var(--glass);
+      display:flex;align-items:center;justify-content:center;overflow:hidden
+    }
+    .logo img{width:100%;height:100%;object-fit:contain}
+    .title{font-family:Orbitron,sans-serif;font-weight:700;font-size:32px;letter-spacing:1px}
+    .subtitle{color:var(--muted);font-size:16px;margin-top:4px}
+    .badge{
+      display:inline-flex;padding:10px 16px;border-radius:999px;font-weight:700;
+      background:rgba(0,0,0,0.3);color:#fff;font-size:15px
+    }
+
+    .hero{
+      margin-top:30px;
+      padding:40px;
+      border-radius:16px;
+      background:linear-gradient(90deg, rgba(176,24,24,0.15), rgba(0,0,0,0.25));
+      display:flex;
+      flex-wrap:wrap;
+      gap:40px;
+      align-items:center;
+    }
+    .hero .info{flex:1;min-width:280px}
+    .hero h1{
+      margin:0;
+      font-size:30px;
+      font-family:Orbitron,sans-serif;
+      font-weight:700;
+    }
+    .hero p{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:17px;
+      max-width:760px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding:16px 22px;
+      border-radius:12px;
+      font-weight:700;
+      text-decoration:none;
+      border:0;
+      cursor:pointer;
+      transition:transform .2s ease, box-shadow .3s ease;
+    }
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+      font-size:16px;
+      box-shadow:0 8px 25px rgba(176,24,24,0.35);
+    }
+    .btn-primary:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 35px rgba(176,24,24,0.55)
+    }
+
+    .content-section{
+      margin-top:40px;
+      padding:36px;
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.25));
+      font-size:17px;
+      border:1px solid rgba(255,255,255,0.04);
+    }
+
+    .content-section h2{
+      margin-bottom:16px;
+      font-size:22px;
+      font-family:Orbitron,sans-serif;
+      color:#fff;
+    }
+
+    .content-section p{
+      color:#d8d8d8;
+      margin-bottom:14px;
+    }
+
+    .content-section ul{
+      margin:10px 0 18px 20px;
+      color:#d8d8d8;
+    }
+
+    .content-section li{
+      margin-bottom:10px;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+      gap:22px;
+      margin-top:24px;
+    }
+
+    .card{
+      padding:22px;
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.30));
+      border:1px solid rgba(255,255,255,0.05);
+      transition:0.25s ease;
+    }
+
+    .card:hover{
+      border-color:#e03131;
+      transform:translateY(-3px);
+      box-shadow:0 12px 32px rgba(176,24,24,0.20);
+    }
+
+    .card h3{
+      font-family:Orbitron,sans-serif;
+      font-size:18px;
+      margin-bottom:10px;
+      color:#fff;
+    }
+
+    .card p{
+      color:var(--muted);
+      font-size:15px;
+      margin:0;
+    }
+
+    .notice{
+      margin-top:24px;
+      padding:18px 20px;
+      border-radius:14px;
+      background:rgba(224,49,49,0.08);
+      border:1px solid rgba(224,49,49,0.20);
+      color:#f1f1f1;
+    }
+
+    .footer-links{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .footer-links a{
+      color:#fff;
+      text-decoration:none;
+      padding:10px 16px;
+      border-radius:10px;
+      background:rgba(255,255,255,0.04);
+      transition:.2s ease;
+    }
+
+    .footer-links a:hover{
+      background:rgba(255,255,255,0.08);
+      transform:translateY(-2px);
+    }
+
+    @media (max-width: 768px){
+      .wrap{margin:30px auto;padding:18px}
+      .topbar{padding:22px;flex-direction:column;align-items:flex-start}
+      .logo{width:82px;height:82px}
+      .title{font-size:26px}
+      .hero{padding:28px}
+      .content-section{padding:24px}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-decorativo">
+    <div class="blur-ball b1"></div>
+    <div class="blur-ball b2"></div>
+    <div class="grid"></div>
+  </div>
+
+  <canvas id="snow-canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("snow-canvas");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    const FLAKE_COUNT = 180;
+    const flakes = [];
+
+    for (let i = 0; i < FLAKE_COUNT; i++) {
+      flakes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 1.8 + 0.6,
+        speedX: -(Math.random() * 1.4 + 0.4),
+        speedY: -(Math.random() * 1.0 + 0.3),
+        opacity: Math.random() * 0.6 + 0.4
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let f of flakes) {
+        ctx.globalAlpha = f.opacity;
+        ctx.fillStyle = "#ff5c5c";
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        f.x += f.speedX;
+        f.y += f.speedY;
+
+        if (f.x < -10 || f.y < -10) {
+          f.x = canvas.width + Math.random() * 10;
+          f.y = Math.random() * canvas.height;
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+
+  <main class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">
+          <img src="https://static.wixstatic.com/media/a1f3be_12764d58d576454a96601e3a08c7ae23~mv2.gif" alt="Force War logo">
+        </div>
+        <div>
+          <div class="title">Force War</div>
+          <div class="subtitle">Política de Privacidade</div>
+        </div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div class="badge">Privacidade & Segurança</div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="info">
+        <h1>Compromisso com seus dados e sua privacidade</h1>
+        <p>
+          Esta Política de Privacidade explica como a Force War trata informações relacionadas ao acesso ao site,
+          downloads, uso do ativador, suporte e navegação em nossas páginas.
+        </p>
+        <p style="margin-top:12px;color:var(--muted);font-size:15px">
+          Ao continuar utilizando nossos serviços, páginas e materiais disponibilizados, você declara estar ciente desta política.
+        </p>
+      </div>
+      <div style="min-width:260px;display:flex;flex-direction:column;gap:14px;align-items:flex-end">
+        <a class="btn btn-primary" href="/">
+          Voltar para página inicial
+        </a>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>1. Informações gerais</h2>
+      <p>
+        A Force War disponibiliza páginas informativas, materiais de suporte, arquivos para download, instruções de uso
+        e conteúdos relacionados ao acesso e ativação de games e ferramentas vinculadas ao nosso ecossistema.
+      </p>
+      <p>
+        Esta política tem como objetivo informar, de forma clara, como dados eventualmente fornecidos pelo usuário
+        podem ser tratados durante a navegação, contato com o suporte e utilização de recursos disponibilizados por nossa plataforma.
+      </p>
+
+      <div class="notice">
+        Não comercializamos dados pessoais de usuários e buscamos limitar a coleta de informações ao mínimo necessário
+        para funcionamento do site, entrega de arquivos, suporte técnico, segurança e prevenção de fraudes.
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>2. Quais informações podem ser coletadas</h2>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Dados de navegação</h3>
+          <p>Podemos registrar informações técnicas como IP, tipo de navegador, dispositivo, sistema operacional, páginas acessadas, horários e interações básicas com o site.</p>
+        </div>
+
+        <div class="card">
+          <h3>Dados enviados pelo usuário</h3>
+          <p>Quando o usuário entra em contato com a equipe, pode fornecer nome, e-mail, Discord, identificadores de pedido, prints, comprovantes ou outras informações necessárias ao atendimento.</p>
+        </div>
+
+        <div class="card">
+          <h3>Registros de download e suporte</h3>
+          <p>Podemos manter registros de acesso a arquivos, versão utilizada, tentativas de suporte e histórico de atendimento para melhorar estabilidade, segurança e rastreabilidade operacional.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>3. Finalidade do uso das informações</h2>
+      <p>As informações tratadas pela Force War podem ser utilizadas para:</p>
+      <ul>
+        <li>disponibilizar downloads, páginas e materiais relacionados ao ativador e aos games suportados;</li>
+        <li>prestar suporte técnico e atendimento ao usuário;</li>
+        <li>verificar integridade do serviço, estabilidade de versão e segurança operacional;</li>
+        <li>investigar falhas, abusos, fraudes, acessos indevidos ou uso contrário às regras da plataforma;</li>
+        <li>melhorar a experiência do usuário e a organização de conteúdos, tutoriais e páginas de suporte;</li>
+        <li>cumprir obrigações legais, regulatórias ou responder solicitações formalmente exigidas por autoridade competente.</li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>4. Sobre credenciais, login e dados sensíveis</h2>
+      <p>
+        A Force War orienta o usuário a agir com cautela ao utilizar qualquer recurso externo, conta vinculada ou área de login.
+        O usuário é responsável por não compartilhar dados de acesso com terceiros fora dos canais oficiais.
+      </p>
+      <p>
+        Não solicite atendimento em canais não oficiais e não envie credenciais sensíveis fora dos fluxos autorizados pela plataforma.
+        Sempre confirme se está acessando o domínio correto antes de realizar qualquer ação.
+      </p>
+      <p class="muted">
+        Recomendamos que o usuário mantenha boas práticas de segurança digital, incluindo autenticação adicional quando disponível,
+        proteção do dispositivo e conferência do ambiente antes de efetuar logins.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>5. Compartilhamento de dados</h2>
+      <p>
+        A Force War não vende dados pessoais. Informações poderão ser compartilhadas apenas quando necessário para:
+      </p>
+      <ul>
+        <li>processamento técnico de páginas, hospedagem, downloads e infraestrutura;</li>
+        <li>operação de canais de suporte, atendimento e comunicação;</li>
+        <li>cumprimento de obrigação legal, ordem judicial ou requisição formal de autoridade competente;</li>
+        <li>proteção da plataforma contra fraudes, abusos, ataques, chargebacks indevidos ou uso malicioso dos serviços.</li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>6. Retenção e proteção das informações</h2>
+      <p>
+        Mantemos medidas administrativas, técnicas e organizacionais razoáveis para reduzir riscos de acesso não autorizado,
+        alteração indevida, vazamento ou destruição de informações.
+      </p>
+      <p>
+        Os dados poderão ser armazenados pelo tempo necessário para cumprir as finalidades desta política,
+        resguardar direitos da plataforma, manter histórico de suporte, prevenir fraudes e atender exigências legais.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>7. Cookies e tecnologias similares</h2>
+      <p>
+        O site pode utilizar cookies, armazenamento local do navegador e tecnologias semelhantes para fins de funcionamento,
+        desempenho, segurança, personalização básica e análise de uso.
+      </p>
+      <p>
+        O usuário pode, em muitos casos, limitar ou desativar cookies no próprio navegador, sabendo que isso poderá afetar
+        parte do funcionamento da experiência em nossas páginas.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>8. Links externos e serviços de terceiros</h2>
+      <p>
+        Nossas páginas podem conter links para plataformas, downloads, vídeos, comunidades, serviços externos e páginas de terceiros.
+        Cada ambiente externo possui suas próprias regras, políticas e práticas de tratamento de dados.
+      </p>
+      <p>
+        A Force War não se responsabiliza por políticas de privacidade, segurança ou conteúdo mantido diretamente por terceiros.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>9. Direitos do usuário</h2>
+      <p>
+        Sempre que aplicável, o usuário poderá solicitar esclarecimentos sobre tratamento de dados, correção de informações fornecidas
+        por ele, atualização cadastral ou outros pedidos compatíveis com a legislação aplicável.
+      </p>
+      <p>
+        Para assuntos de privacidade, segurança ou atendimento, utilize nossos canais oficiais de suporte.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>10. Alterações desta política</h2>
+      <p>
+        Esta Política de Privacidade poderá ser atualizada a qualquer momento para refletir mudanças operacionais, técnicas, legais
+        ou de segurança. Recomendamos revisão periódica desta página.
+      </p>
+      <p>
+        A continuidade do uso de nossas páginas e serviços após eventuais atualizações será interpretada como ciência do conteúdo vigente.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>11. Contato</h2>
+      <p>
+        Em caso de dúvidas sobre esta Política de Privacidade, uso do site, downloads, ativador ou suporte relacionado aos games,
+        utilize nossos canais oficiais.
+      </p>
+
+      <div class="footer-links">
+        <a href="/">Página Inicial</a>
+        <a href="/termos.html">Termos de Uso</a>
+        <a href="https://discord.gg/y3d62DcpJt" target="_blank" rel="noopener">Suporte no Discord</a>
+      </div>
+    </section>
+
+    <footer style="margin-top:60px;padding:40px 20px;color:var(--muted);font-size:15px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.02);border-radius:14px;">
+      <div style="margin-bottom:16px;">
+        <h4 style="font-family:Orbitron,sans-serif;font-size:20px;color:#fff;margin-bottom:6px;">Force War</h4>
+        <p style="max-width:700px;margin:0 auto;color:var(--muted);">
+          Política de Privacidade aplicável às páginas, downloads, suporte e materiais disponibilizados pela plataforma.
+        </p>
+      </div>
+
+      <div style="margin-top:20px;">
+        © <strong>Force War</strong> — Privacidade, segurança e uso responsável.
+      </div>
+    </footer>
+  </main>
+</body>
+</html>

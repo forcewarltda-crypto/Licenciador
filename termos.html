@@ -1,0 +1,492 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Force War — Termos de Uso</title>
+  <meta name="description" content="Termos de Uso da Force War para acesso ao site, ativador, downloads, suporte e serviços digitais." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+    :root {
+      --bg: #0b0b0b;
+      --red-600: #e03131;
+      --muted: #9aa0a6;
+      --glass: rgba(255,255,255,0.04);
+      --accent: linear-gradient(90deg,var(--red-600),#ff6b6b);
+    }
+
+    * { box-sizing:border-box; margin:0; padding:0 }
+    html, body { overflow-x:hidden; }
+    body {
+      font-family: Inter, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1400px 600px at 10% 10%, rgba(224,49,49,0.06), transparent), var(--bg);
+      color:#f2f2f2;
+      -webkit-font-smoothing:antialiased;
+      line-height:1.6;
+      position:relative;
+    }
+
+    .bg-decorativo {
+      position: fixed; inset: 0; z-index: -10; pointer-events: none; overflow: hidden;
+    }
+    .bg-decorativo .blur-ball {
+      position: absolute; border-radius: 50%; filter: blur(150px); opacity: 0.5;
+    }
+    .bg-decorativo .b1 { width:800px; height:800px; background:radial-gradient(circle,var(--red-600),transparent); top:-200px; left:-200px; }
+    .bg-decorativo .b2 { width:900px; height:900px; background:radial-gradient(circle,#ff6b6b20,transparent); bottom:-300px; right:-300px; }
+    .bg-decorativo .grid {
+      position: absolute; inset: 0; opacity: 0.05;
+      background:
+        radial-gradient(circle,#ff4d4d 0.5px,transparent 0.5px) 0 0/30px 30px,
+        radial-gradient(circle,#ffffff 0.3px,transparent 0.3px) 15px 15px/30px 30px;
+    }
+
+    #snow-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -6;
+      pointer-events: none;
+    }
+
+    .wrap{max-width:1250px;margin:60px auto;padding:40px}
+    .topbar{
+      display:flex;
+      align-items:center;
+      gap:24px;
+      padding:28px;
+      border-radius:18px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.35));
+      box-shadow:0 10px 40px rgba(0,0,0,0.7);
+    }
+    .brand{display:flex;gap:18px;align-items:center}
+    .logo{
+      width:100px;height:100px;border-radius:14px;background:var(--glass);
+      display:flex;align-items:center;justify-content:center;overflow:hidden
+    }
+    .logo img{width:100%;height:100%;object-fit:contain}
+    .title{font-family:Orbitron,sans-serif;font-weight:700;font-size:32px;letter-spacing:1px}
+    .subtitle{color:var(--muted);font-size:16px;margin-top:4px}
+    .badge{
+      display:inline-flex;padding:10px 16px;border-radius:999px;font-weight:700;
+      background:rgba(0,0,0,0.3);color:#fff;font-size:15px
+    }
+
+    .hero{
+      margin-top:30px;
+      padding:40px;
+      border-radius:16px;
+      background:linear-gradient(90deg, rgba(176,24,24,0.15), rgba(0,0,0,0.25));
+      display:flex;
+      flex-wrap:wrap;
+      gap:40px;
+      align-items:center;
+    }
+    .hero .info{flex:1;min-width:280px}
+    .hero h1{
+      margin:0;
+      font-size:30px;
+      font-family:Orbitron,sans-serif;
+      font-weight:700;
+    }
+    .hero p{
+      margin-top:10px;
+      color:var(--muted);
+      font-size:17px;
+      max-width:760px;
+    }
+
+    .btn{
+      display:inline-flex;
+      align-items:center;
+      gap:12px;
+      padding:16px 22px;
+      border-radius:12px;
+      font-weight:700;
+      text-decoration:none;
+      border:0;
+      cursor:pointer;
+      transition:transform .2s ease, box-shadow .3s ease;
+    }
+    .btn-primary{
+      background:var(--accent);
+      color:#fff;
+      font-size:16px;
+      box-shadow:0 8px 25px rgba(176,24,24,0.35);
+    }
+    .btn-primary:hover{
+      transform:translateY(-2px);
+      box-shadow:0 10px 35px rgba(176,24,24,0.55)
+    }
+
+    .content-section{
+      margin-top:40px;
+      padding:36px;
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.25));
+      font-size:17px;
+      border:1px solid rgba(255,255,255,0.04);
+    }
+
+    .content-section h2{
+      margin-bottom:16px;
+      font-size:22px;
+      font-family:Orbitron,sans-serif;
+      color:#fff;
+    }
+
+    .content-section p{
+      color:#d8d8d8;
+      margin-bottom:14px;
+    }
+
+    .content-section ul{
+      margin:10px 0 18px 20px;
+      color:#d8d8d8;
+    }
+
+    .content-section li{
+      margin-bottom:10px;
+    }
+
+    .muted{
+      color:var(--muted);
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns:repeat(auto-fit, minmax(260px, 1fr));
+      gap:22px;
+      margin-top:24px;
+    }
+
+    .card{
+      padding:22px;
+      border-radius:16px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.30));
+      border:1px solid rgba(255,255,255,0.05);
+      transition:0.25s ease;
+    }
+
+    .card:hover{
+      border-color:#e03131;
+      transform:translateY(-3px);
+      box-shadow:0 12px 32px rgba(176,24,24,0.20);
+    }
+
+    .card h3{
+      font-family:Orbitron,sans-serif;
+      font-size:18px;
+      margin-bottom:10px;
+      color:#fff;
+    }
+
+    .card p{
+      color:var(--muted);
+      font-size:15px;
+      margin:0;
+    }
+
+    .notice{
+      margin-top:24px;
+      padding:18px 20px;
+      border-radius:14px;
+      background:rgba(224,49,49,0.08);
+      border:1px solid rgba(224,49,49,0.20);
+      color:#f1f1f1;
+    }
+
+    .footer-links{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:14px;
+      margin-top:16px;
+    }
+
+    .footer-links a{
+      color:#fff;
+      text-decoration:none;
+      padding:10px 16px;
+      border-radius:10px;
+      background:rgba(255,255,255,0.04);
+      transition:.2s ease;
+    }
+
+    .footer-links a:hover{
+      background:rgba(255,255,255,0.08);
+      transform:translateY(-2px);
+    }
+
+    @media (max-width: 768px){
+      .wrap{margin:30px auto;padding:18px}
+      .topbar{padding:22px;flex-direction:column;align-items:flex-start}
+      .logo{width:82px;height:82px}
+      .title{font-size:26px}
+      .hero{padding:28px}
+      .content-section{padding:24px}
+    }
+  </style>
+</head>
+<body>
+
+  <div class="bg-decorativo">
+    <div class="blur-ball b1"></div>
+    <div class="blur-ball b2"></div>
+    <div class="grid"></div>
+  </div>
+
+  <canvas id="snow-canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("snow-canvas");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    const FLAKE_COUNT = 180;
+    const flakes = [];
+
+    for (let i = 0; i < FLAKE_COUNT; i++) {
+      flakes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 1.8 + 0.6,
+        speedX: -(Math.random() * 1.4 + 0.4),
+        speedY: -(Math.random() * 1.0 + 0.3),
+        opacity: Math.random() * 0.6 + 0.4
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let f of flakes) {
+        ctx.globalAlpha = f.opacity;
+        ctx.fillStyle = "#ff5c5c";
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        f.x += f.speedX;
+        f.y += f.speedY;
+
+        if (f.x < -10 || f.y < -10) {
+          f.x = canvas.width + Math.random() * 10;
+          f.y = Math.random() * canvas.height;
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+
+  <main class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">
+          <img src="https://static.wixstatic.com/media/a1f3be_12764d58d576454a96601e3a08c7ae23~mv2.gif" alt="Force War logo">
+        </div>
+        <div>
+          <div class="title">Force War</div>
+          <div class="subtitle">Termos de Uso</div>
+        </div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div class="badge">Uso & Condições</div>
+      </div>
+    </header>
+
+    <section class="hero">
+      <div class="info">
+        <h1>Condições de uso da plataforma Force War</h1>
+        <p>
+          Estes Termos de Uso estabelecem as regras aplicáveis ao acesso ao site, downloads,
+          ativador, suporte, conteúdos e demais recursos disponibilizados pela Force War.
+        </p>
+        <p style="margin-top:12px;color:var(--muted);font-size:15px">
+          Ao acessar, baixar, utilizar ou continuar navegando em nossas páginas e serviços, você declara estar ciente e de acordo com estes termos.
+        </p>
+      </div>
+      <div style="min-width:260px;display:flex;flex-direction:column;gap:14px;align-items:flex-end">
+        <a class="btn btn-primary" href="/">
+          Voltar para página inicial
+        </a>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>1. Objeto</h2>
+      <p>
+        A Force War disponibiliza páginas informativas, materiais de suporte, arquivos para download,
+        orientações de uso, ferramentas auxiliares, conteúdos digitais e recursos relacionados ao acesso
+        e ativação de games e serviços vinculados ao seu ecossistema.
+      </p>
+      <p>
+        Estes Termos de Uso regulam a utilização desses recursos pelo usuário, definindo deveres,
+        responsabilidades, limites de uso e condições gerais aplicáveis à plataforma.
+      </p>
+
+      <div class="notice">
+        O uso da plataforma deve ocorrer de forma responsável, legítima e em conformidade com as instruções,
+        regras operacionais e canais oficiais da Force War.
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>2. Aceite e responsabilidade do usuário</h2>
+
+      <div class="cards">
+        <div class="card">
+          <h3>Aceite dos termos</h3>
+          <p>Ao acessar o site, baixar arquivos, utilizar o ativador ou solicitar suporte, o usuário concorda com as regras estabelecidas nesta página.</p>
+        </div>
+
+        <div class="card">
+          <h3>Uso pessoal e responsável</h3>
+          <p>O usuário se compromete a utilizar os materiais disponibilizados com responsabilidade, respeitando as orientações oficiais e evitando compartilhamentos indevidos.</p>
+        </div>
+
+        <div class="card">
+          <h3>Veracidade das informações</h3>
+          <p>Quando necessário para suporte ou atendimento, o usuário deverá fornecer informações corretas, completas e atualizadas.</p>
+        </div>
+      </div>
+    </section>
+
+    <section class="content-section">
+      <h2>3. Regras gerais de uso</h2>
+      <p>Ao utilizar os serviços e conteúdos da Force War, o usuário concorda em:</p>
+      <ul>
+        <li>utilizar apenas arquivos, links e materiais disponibilizados pelos canais oficiais da plataforma;</li>
+        <li>seguir corretamente as instruções fornecidas em cada página, tutorial ou atendimento de suporte;</li>
+        <li>não compartilhar acessos, arquivos, chaves, credenciais ou materiais restritos com terceiros não autorizados;</li>
+        <li>não tentar burlar, alterar, reempacotar, redistribuir, revender ou explorar indevidamente os recursos disponibilizados;</li>
+        <li>não utilizar a plataforma para fins ilícitos, fraudulentos, abusivos ou contrários à boa-fé.</li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>4. Downloads, ativador e conteúdos digitais</h2>
+      <p>
+        A Force War pode disponibilizar arquivos para download, instruções operacionais, páginas de orientação,
+        suporte técnico e ativadores relacionados aos games suportados pela plataforma.
+      </p>
+      <p>
+        O usuário reconhece que deve conferir o domínio, a origem do arquivo e a integridade do ambiente antes de qualquer execução,
+        mantendo boas práticas de segurança digital em seu dispositivo.
+      </p>
+      <p class="muted">
+        O usuário é responsável pelo uso adequado do equipamento, conexão, sistema operacional, permissões locais,
+        antivírus, firewall e demais fatores do próprio ambiente que possam impactar a experiência de uso.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>5. Limites de responsabilidade</h2>
+      <p>
+        A Force War busca manter suas páginas e materiais atualizados e operacionais, mas não garante disponibilidade ininterrupta,
+        ausência absoluta de falhas, compatibilidade universal com todos os ambientes ou funcionamento idêntico em todos os dispositivos.
+      </p>
+      <p>A plataforma não se responsabiliza, entre outros casos, por:</p>
+      <ul>
+        <li>uso incorreto dos materiais, downloads, instruções ou ferramentas disponibilizadas;</li>
+        <li>falhas causadas por configuração local do usuário, sistema operacional, antivírus, firewall, internet ou software de terceiros;</li>
+        <li>indisponibilidades temporárias, manutenções, atualizações, mudanças técnicas ou instabilidades externas;</li>
+        <li>ações, políticas, limitações, bloqueios ou alterações promovidas por plataformas, launchers, serviços ou empresas terceiras;</li>
+        <li>prejuízos decorrentes de compartilhamento indevido de acessos, credenciais ou arquivos por parte do próprio usuário.</li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>6. Suporte e canais oficiais</h2>
+      <p>
+        O suporte é prestado exclusivamente pelos canais oficiais divulgados pela Force War. O usuário deve evitar atendimento
+        por canais não reconhecidos, perfis paralelos, links suspeitos ou terceiros sem autorização.
+      </p>
+      <p>
+        Para agilizar o atendimento, poderá ser necessário o envio de informações operacionais, prints,
+        identificadores de pedido, registros de erro ou outras evidências relevantes ao caso.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>7. Conduta proibida</h2>
+      <p>É expressamente vedado ao usuário:</p>
+      <ul>
+        <li>praticar fraude, abuso de plataforma, engenharia social, falsidade de informações ou tentativa de obtenção indevida de vantagem;</li>
+        <li>usar a estrutura da Force War para distribuir arquivos modificados, maliciosos ou não autorizados;</li>
+        <li>reproduzir, copiar, revender, redistribuir ou explorar comercialmente materiais da plataforma sem autorização;</li>
+        <li>realizar contestação indevida, falsa alegação, tentativa de chargeback abusivo ou qualquer conduta de má-fé;</li>
+        <li>comprometer a segurança, estabilidade ou funcionamento das páginas, downloads, suporte ou infraestrutura vinculada à Force War.</li>
+      </ul>
+    </section>
+
+    <section class="content-section">
+      <h2>8. Medidas aplicáveis em caso de abuso</h2>
+      <p>
+        Em caso de indícios de uso indevido, fraude, abuso, violação destes termos ou tentativa de prejuízo operacional à plataforma,
+        a Force War poderá adotar medidas administrativas e técnicas cabíveis, incluindo suspensão de acesso, bloqueio de atendimento,
+        registro interno do ocorrido e preservação de evidências para resguardo de direitos.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>9. Propriedade e integridade da plataforma</h2>
+      <p>
+        Os elementos visuais, identidade, estrutura das páginas, materiais de suporte, textos, organização de conteúdo,
+        arquivos e demais recursos disponibilizados pela Force War integram a operação da plataforma e não podem ser copiados,
+        reproduzidos ou utilizados indevidamente sem autorização.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>10. Alterações destes termos</h2>
+      <p>
+        Estes Termos de Uso poderão ser alterados, atualizados ou ajustados a qualquer momento para refletir mudanças operacionais,
+        técnicas, comerciais, legais ou de segurança.
+      </p>
+      <p>
+        Recomendamos a consulta periódica desta página. A continuidade do uso da plataforma após alterações será interpretada como
+        ciência e aceitação do conteúdo vigente.
+      </p>
+    </section>
+
+    <section class="content-section">
+      <h2>11. Contato</h2>
+      <p>
+        Em caso de dúvidas sobre estes Termos de Uso, utilização do site, downloads, ativador ou suporte relacionado aos games,
+        utilize os canais oficiais da Force War.
+      </p>
+
+      <div class="footer-links">
+        <a href="/">Página Inicial</a>
+        <a href="/privacidade.html">Política de Privacidade</a>
+        <a href="https://discord.gg/y3d62DcpJt" target="_blank" rel="noopener">Suporte no Discord</a>
+      </div>
+    </section>
+
+    <footer style="margin-top:60px;padding:40px 20px;color:var(--muted);font-size:15px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.02);border-radius:14px;">
+      <div style="margin-bottom:16px;">
+        <h4 style="font-family:Orbitron,sans-serif;font-size:20px;color:#fff;margin-bottom:6px;">Force War</h4>
+        <p style="max-width:700px;margin:0 auto;color:var(--muted);">
+          Termos de Uso aplicáveis às páginas, downloads, suporte e materiais disponibilizados pela plataforma.
+        </p>
+      </div>
+
+      <div style="margin-top:20px;">
+        © <strong>Force War</strong> — Uso responsável e canais oficiais.
+      </div>
+    </footer>
+  </main>
+</body>
+</html>

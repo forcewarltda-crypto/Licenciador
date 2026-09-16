@@ -1,0 +1,291 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Force War — Downloads</title>
+  <meta name="description" content="Ativador de keys para Steam." />
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <style>
+
+    .legal-links{
+      display:flex;
+      justify-content:center;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:22px;
+    }
+
+    .legal-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 18px;
+      border-radius:10px;
+      text-decoration:none;
+      color:#fff;
+      font-weight:700;
+      font-size:14px;
+      background:linear-gradient(180deg, rgba(255,255,255,0.05), rgba(0,0,0,0.28));
+      border:1px solid rgba(255,255,255,0.06);
+      transition:transform .2s ease, box-shadow .25s ease, border-color .25s ease, background .25s ease;
+    }
+
+    .legal-link:hover{
+      transform:translateY(-2px);
+      border-color:rgba(224,49,49,0.45);
+      box-shadow:0 10px 28px rgba(176,24,24,0.22);
+      background:linear-gradient(180deg, rgba(255,255,255,0.07), rgba(0,0,0,0.34));
+    }
+
+    .hero-links{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      margin-top:16px;
+    }
+
+    .hero-link{
+      display:inline-flex;
+      align-items:center;
+      justify-content:center;
+      padding:12px 18px;
+      border-radius:10px;
+      text-decoration:none;
+      color:#fff;
+      font-weight:700;
+      font-size:14px;
+      background:rgba(255,255,255,0.04);
+      border:1px solid rgba(255,255,255,0.06);
+      transition:transform .2s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+
+    .hero-link:hover{
+      transform:translateY(-2px);
+      border-color:rgba(224,49,49,0.45);
+      box-shadow:0 10px 28px rgba(176,24,24,0.18);
+    }
+
+    :root {
+      --bg: #0b0b0b;
+      --red-600: #e03131;
+      --muted: #9aa0a6;
+      --glass: rgba(255,255,255,0.04);
+      --accent: linear-gradient(90deg,var(--red-600),#ff6b6b);
+    }
+
+    * { box-sizing:border-box; margin:0; padding:0 }
+    html, body { overflow-x:hidden; } /* removido height:100% */
+    body {
+      font-family: Inter, system-ui, Segoe UI, Roboto, "Helvetica Neue", Arial;
+      background: radial-gradient(1400px 600px at 10% 10%, rgba(224,49,49,0.06), transparent), var(--bg);
+      color:#f2f2f2;
+      -webkit-font-smoothing:antialiased;
+      line-height:1.6;
+      position:relative;
+    }
+
+    /* fundo decorativo */
+    .bg-decorativo {
+      position: fixed; inset: 0; z-index: -10; pointer-events: none; overflow: hidden;
+    }
+    .bg-decorativo .blur-ball {
+      position: absolute; border-radius: 50%; filter: blur(150px); opacity: 0.5;
+    }
+    .bg-decorativo .b1 { width:800px; height:800px; background:radial-gradient(circle,var(--red-600),transparent); top:-200px; left:-200px; }
+    .bg-decorativo .b2 { width:900px; height:900px; background:radial-gradient(circle,#ff6b6b20,transparent); bottom:-300px; right:-300px; }
+    .bg-decorativo .grid {
+      position: absolute; inset: 0; opacity: 0.05;
+      background:
+        radial-gradient(circle,#ff4d4d 0.5px,transparent 0.5px) 0 0/30px 30px,
+        radial-gradient(circle,#ffffff 0.3px,transparent 0.3px) 15px 15px/30px 30px;
+    }
+
+    /* Canvas da neve */
+    #snow-canvas {
+      position: fixed;
+      inset: 0;
+      width: 100vw;
+      height: 100vh;
+      z-index: -6;
+      pointer-events: none;
+    }
+
+    /* layout */
+    .wrap{max-width:1250px;margin:60px auto;padding:40px}
+    .topbar{display:flex;align-items:center;gap:24px;padding:28px;border-radius:18px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.35));box-shadow:0 10px 40px rgba(0,0,0,0.7);}
+    .brand{display:flex;gap:18px;align-items:center}
+    .logo{width:100px;height:100px;border-radius:14px;background:var(--glass);display:flex;align-items:center;justify-content:center;overflow:hidden}
+    .logo img{width:100%;height:100%;object-fit:contain}
+    .title{font-family:Orbitron,sans-serif;font-weight:700;font-size:32px;letter-spacing:1px}
+    .subtitle{color:var(--muted);font-size:16px;margin-top:4px}
+    .badge{display:inline-flex;padding:10px 16px;border-radius:999px;font-weight:700;background:rgba(0,0,0,0.3);color:#fff;font-size:15px}
+    .topbar small{color:var(--muted);font-size:14px}
+    .banner{margin-top:30px;border-radius:18px;overflow:hidden;box-shadow:0 12px 45px rgba(0,0,0,0.8);}
+    .banner img{width:100%;height:auto;display:block;object-fit:cover;}
+    .hero{margin-top:40px;padding:40px;border-radius:16px;background:linear-gradient(90deg, rgba(176,24,24,0.15), rgba(0,0,0,0.25));display:flex;flex-wrap:wrap;gap:40px;align-items:center;}
+    .hero .info{flex:1;min-width:280px}
+    .hero h1{margin:0;font-size:30px;font-family:Orbitron,sans-serif;font-weight:700}
+    .hero p{margin-top:10px;color:var(--muted);font-size:17px;max-width:700px}
+    .btn{display:inline-flex;align-items:center;gap:12px;padding:16px 22px;border-radius:12px;font-weight:700;text-decoration:none;border:0;cursor:pointer;transition:transform .2s ease, box-shadow .3s ease;}
+    .btn-download{background:var(--accent);color:#fff;font-size:17px;box-shadow:0 8px 25px rgba(176,24,24,0.35);}
+    .btn-download:hover{transform:translateY(-2px);box-shadow:0 10px 35px rgba(176,24,24,0.55)}
+    .instructions{margin-top:50px;padding:36px;border-radius:16px;background:linear-gradient(180deg, rgba(255,255,255,0.03), rgba(0,0,0,0.25));font-size:17px;}
+    .instructions h4{margin-bottom:14px;font-size:22px;font-family:Orbitron,sans-serif}
+    .steps{display:flex;flex-direction:column;gap:16px}
+    .step{display:flex;gap:16px;align-items:flex-start}
+    .step .num{min-width:46px;height:46px;border-radius:10px;background:rgba(255,255,255,0.05);display:flex;align-items:center;justify-content:center;font-weight:700;font-size:18px;color:#fff;}
+  </style>
+</head>
+<body>
+
+  <div class="bg-decorativo">
+    <div class="blur-ball b1"></div>
+    <div class="blur-ball b2"></div>
+    <div class="grid"></div>
+  </div>
+
+  <canvas id="snow-canvas"></canvas>
+
+  <script>
+    const canvas = document.getElementById("snow-canvas");
+    const ctx = canvas.getContext("2d");
+
+    function resize() {
+      canvas.width = window.innerWidth;
+      canvas.height = window.innerHeight;
+    }
+    window.addEventListener("resize", resize);
+    resize();
+
+    // ❄️ Flocos menores e mais rápidos
+    const FLAKE_COUNT = 180;
+    const flakes = [];
+
+    for (let i = 0; i < FLAKE_COUNT; i++) {
+      flakes.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        size: Math.random() * 1.8 + 0.6, // flocos menores
+        speedX: -(Math.random() * 1.4 + 0.4), // mais rápido lateral
+        speedY: -(Math.random() * 1.0 + 0.3), // mais rápido vertical
+        opacity: Math.random() * 0.6 + 0.4
+      });
+    }
+
+    function draw() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+      for (let f of flakes) {
+        ctx.globalAlpha = f.opacity;
+        ctx.fillStyle = "#ff5c5c";
+        ctx.beginPath();
+        ctx.arc(f.x, f.y, f.size, 0, Math.PI * 2);
+        ctx.fill();
+
+        f.x += f.speedX;
+        f.y += f.speedY;
+
+        if (f.x < -10 || f.y < -10) {
+          f.x = canvas.width + Math.random() * 10;
+          f.y = Math.random() * canvas.height;
+        }
+      }
+      requestAnimationFrame(draw);
+    }
+
+    draw();
+  </script>
+
+  <main class="wrap">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">
+          <img src="./imagens/force-war-logo.gif" alt="Force War logo">
+        </div>
+        <div>
+          <div class="title">Force War</div>
+          <div class="subtitle">Ativador de Keys</div>
+        </div>
+      </div>
+      <div style="margin-left:auto;text-align:right">
+        <div class="badge">Versão: <strong id="site-version" style="margin-left:20px"></strong></div>
+      </div>
+    </header>
+
+    <section class="banner">
+      <img src="./imagens/denuvo-banner.jpg" alt="Banner Force War Steam">
+    </section>
+
+    <section class="hero">
+      <div class="info">
+        <h1>Ative sua key com segurança e rapidez</h1>
+        <p>Baixe o Executor para acessar o game via Steam.<br>Use o Ativador apenas após ler as instruções abaixo.</p>
+        <p style="margin-top:12px;color:var(--muted);font-size:15px">Aviso: siga as instruções de uso; não compartilhe suas credenciais. Esteja ciente das políticas da Steam.</p>
+
+        <div class="hero-links">
+          <a class="hero-link" href="/termos.html">Termos de Uso</a>
+          <a class="hero-link" href="/privacidade.html">Política de Privacidade</a>
+        </div>
+      </div>
+
+      <div style="min-width:260px;display:flex;flex-direction:column;gap:14px;align-items:flex-end">
+        <a class="btn btn-download" href="#" id="dl-executor" download>
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none">
+            <path d="M12 3v12" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+            <path d="M21 15v4a1 1 0 0 1-1 1H4a1 1 0 0 1-1-1v-4" stroke="white" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          Baixar Executor
+        </a>
+      </div>
+    </section>
+
+    <section class="instructions">
+      <h4>Como usar (rápido)</h4>
+      <div class="steps">
+        <div class="step"><div class="num">1</div><div><strong>Baixe o Executor</strong> e salve em uma pasta temporária. Não execute antes de ler o próximo passo.<br><small>Obs.: caso seu navegador ou Windows Defender bloqueie o download, desative temporariamente e habilite novamente após o processo.</small></div></div>
+        <div class="step"><div class="num">2</div><div>Abra o Executor com privilégios administrativos (clique com o botão direito → Executar como administrador).</div></div>
+        <div class="step"><div class="num">3</div><div>Ao executar, sua Steam irá reiniciar e abrir novamente.</div></div>
+        <div class="step"><div class="num">4</div><div>Pronto, basta colocar sua key de acesso em: <strong>Ativar um código de produto</strong>.</div></div>
+      </div>
+    </section>
+
+    <footer style="margin-top:60px;padding:40px 20px;color:var(--muted);font-size:15px;text-align:center;border-top:1px solid rgba(255,255,255,0.05);background:rgba(255,255,255,0.02);border-radius:14px;">
+      <div style="margin-bottom:20px;">
+        <h4 style="font-family:Orbitron,sans-serif;font-size:20px;color:#fff;margin-bottom:6px;">Suporte Oficial</h4>
+        <p style="max-width:500px;margin:0 auto 16px;color:var(--muted);">
+          Precisa de ajuda com sua key ou ativação? Nossa equipe oferece suporte especializado diretamente pelo Discord.
+        </p>
+        <a href="https://discord.gg/y3d62DcpJt" target="_blank" rel="noopener"
+          style="display:inline-flex;align-items:center;gap:10px;background:linear-gradient(90deg,#5865F2,#7289DA);color:#fff;
+                  padding:12px 22px;border-radius:10px;font-weight:700;text-decoration:none;
+                  transition:transform .25s ease,box-shadow .25s ease;">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M22 24l-4.64-4.24L19 24h3zM12 2a10 10 0 00-10 10v6a2 2 0 002 2h1v-2H4v-6a8 8 0 0116 0v6h-1v2h1a2 2 0 002-2v-6A10 10 0 0012 2zm-3.8 8.2a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0zm7.6 0a1.2 1.2 0 11-2.4 0 1.2 1.2 0 012.4 0z" fill="currentColor"/>
+          </svg>
+          Ir para o Discord
+        </a>
+      </div>
+
+      <div class="legal-links">
+        <a class="legal-link" href="/termos.html">Termos de Uso</a>
+        <a class="legal-link" href="/privacidade.html">Política de Privacidade</a>
+      </div>
+
+      <div style="margin-top:25px;color:var(--muted);">
+        © <strong>Force War</strong> — Não compartilhe seu acesso.
+      </div>
+    </footer>
+  </main>
+
+  <script src="./js/force-war-config.js?v=4.6.6"></script>
+  <script>
+    const CONFIG = window.FW_SITE_CONFIG;
+
+    document.getElementById('dl-executor').href = CONFIG.executorUrl;
+    document.getElementById('site-version').textContent = CONFIG.version;
+  </script>
+</body>
+</html>
