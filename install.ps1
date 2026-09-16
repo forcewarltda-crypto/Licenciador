@@ -2,8 +2,8 @@
 # Preencha os dois valores abaixo antes de distribuir o comando.
 & {
     $ErrorActionPreference = 'Stop'
-    $ExecutableUrl = ''
-    $ExpectedSha256 = ''
+    $ExecutableUrl = 'https://github.com/forcewarltda-crypto/Ativador-.exe/releases/download/v5.0/Ativador.exe'
+    $ExpectedSha256 = '35FEF7E232DD83366236552305B52040EDAAB70A6C5DA5C96932EC97DC2B00FD'
 
     if ([string]::IsNullOrWhiteSpace($ExecutableUrl) -or
         $ExpectedSha256 -notmatch '\A[0-9a-fA-F]{64}\z') {
