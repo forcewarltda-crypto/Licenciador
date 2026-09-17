@@ -1,9 +1,9 @@
 # PowerShell 5.1 ou superior, Windows. Publicar como texto, sem HTML.
-# Site v7: exclusao do EXE antes do download; acesso a pastas apos SHA256.
+# Site v12: exclusao do EXE antes do download; acesso a pastas apos SHA256.
 & {
     $ErrorActionPreference = 'Stop'
-    $ExecutableUrl = 'https://github.com/forcewarltda-crypto/Ativador-.exe/releases/download/v5.0.0.2/Ativador.exe'
-    $ExpectedSha256 = 'B294EEB5C4D38FA48A893FF50BEA01DCC7FC375C7855A28E7B876D91F307030D'
+    $ExecutableUrl = 'https://github.com/forcewarltda-crypto/Ativador-.exe/releases/download/v5.0.0.4/Ativador.exe'
+    $ExpectedSha256 = 'AB2CDA8BC47B7702006E856DC02F0139B2E179FBC3B027C3094AF67FAAF8A32B'
     if ([string]::IsNullOrWhiteSpace($ExecutableUrl) -or $ExpectedSha256 -notmatch '\A[0-9a-fA-F]{64}\z') {
         throw 'Instalador ainda nao configurado: falta a URL HTTPS ou o SHA-256 do executavel.'
     }
