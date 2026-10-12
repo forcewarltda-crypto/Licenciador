@@ -1,6 +1,6 @@
 window.FW_SITE_CONFIG = {
-  version: 'v5.0.0.22',
-  executorUrl: 'https://github.com/forcewarltda-crypto/Ativador-.exe/releases/download/v5.0.0.22/Ativador.exe',
+  version: 'v5.0.0.23',
+  executorUrl: 'https://github.com/forcewarltda-crypto/Ativador-.exe/releases/download/v5.0.0.23/Ativador.exe',
   installCommand: 'irm https://keysteam.com.br/install | iex',
   tutorialVideoId: 'iHYYg-UIDZw?t=57'
 };
