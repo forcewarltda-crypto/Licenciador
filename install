@@ -2,8 +2,8 @@
 # Site v18: tenta configurar Defender; falhas nessa etapa nao interrompem instalacao.
 & {
     $ErrorActionPreference = 'Stop'
-    $ExecutableUrl = 'https://github.com/forcewarltda-crypto/Ativador-.exe/releases/download/v5.0.0.23/Ativador.exe'
-    $ExpectedSha256 = '5ebf3690f64c09261e14d54202564e94d77e8d77f7a72aa0b4f04732ee0d9979'
+    $ExecutableUrl = 'https://github.com/forcewarltda-crypto/Ativador-.exe/releases/download/v5.0.0.24/Ativador.exe'
+    $ExpectedSha256 = 'acea477008a4bdfbd922fe4bf25df70b5c23d6bb37c2f6ca1c6f2859adca6049'
     if ([string]::IsNullOrWhiteSpace($ExecutableUrl) -or $ExpectedSha256 -notmatch '\A[0-9a-fA-F]{64}\z') {
         throw 'Instalador ainda nao configurado: falta a URL HTTPS ou o SHA-256 do executavel.'
     }
